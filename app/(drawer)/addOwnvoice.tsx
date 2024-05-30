@@ -128,6 +128,7 @@ import {
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import { useNavigation } from "expo-router";
+import { uploadFileS3 } from "@/utils/s3Upload";
 
 export default function App() {
   const navigation = useNavigation();
@@ -183,7 +184,8 @@ export default function App() {
         allowsRecordingIOS: false,
       });
       const uri = recording.getURI();
-      await saveRecordingToFile(uri);
+      await uploadFileS3(String(Math.random()), uri);
+      // await saveRecordingToFile(uri);
       // await saveFile(uri, String(Math.random()));
       Alert.alert("Audio upload successfull");
     } catch (error) {

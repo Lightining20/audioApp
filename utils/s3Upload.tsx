@@ -18,13 +18,13 @@ const client = new S3Client({
   },
 });
 
-export const uploadFile = async (fileName: string, path: string) => {
+export const uploadFileS3 = async (fileName: string, path: string) => {
   try {
     const response = await fetch(path);
     const blob = await response.blob();
     const s3Response = await client.send(
       new PutObjectCommand({
-        Bucket: "camera-sec",
+        Bucket: options.bucket,
         Key: "uploads/" + fileName,
         Body: blob,
       })
