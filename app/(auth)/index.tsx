@@ -41,20 +41,10 @@ export default function TabTwoScreen() {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      if (userInfo.idToken) {
-        const { data, error } = await supabase.auth.signInWithIdToken({
-          provider: "google",
-          token: userInfo.idToken,
-        });
-        if (!error) {
-          await setAsyncItem("USER_DATA", JSON.stringify(data));
-          navigation.reset({
-            routes: [{ name: "home" }],
-          });
-        }
-      } else {
-        throw new Error("no ID token present!");
-      }
+      console.log(
+        "🚀 ~ file: index.tsx:44 ~ onGooglePress ~ userInfo:",
+        userInfo
+      );
     } catch (error: any) {
       console.log("🚀 ~ file: explore.tsx:19 ~ onPress={ ~ error:", error);
     }

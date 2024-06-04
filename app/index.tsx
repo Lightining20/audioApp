@@ -18,7 +18,7 @@ const index = () => {
       });
     } else {
       navigation.reset({
-        routes: [{ name: "(drawer)" }],
+        routes: [{ name: "(auth)" }],
       });
     }
   };

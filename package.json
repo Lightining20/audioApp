@@ -23,6 +23,7 @@
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.0.2",
     "@supabase/supabase-js": "^2.43.2",
+    "axios": "^1.7.2",
     "base64-arraybuffer": "^1.0.2",
     "base64-js": "^1.5.1",
     "expo": "~51.0.8",

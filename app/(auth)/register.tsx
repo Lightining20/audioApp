@@ -40,7 +40,18 @@ export default function TabTwoScreen() {
   });
 
   const navigation = useNavigation();
-
+  const onGooglePress = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(
+        "🚀 ~ file: register.tsx:47 ~ onGooglePress ~ userInfo:",
+        userInfo.user
+      );
+    } catch (error: any) {
+      console.log("🚀 ~ file: explore.tsx:19 ~ onPress={ ~ error:", error);
+    }
+  };
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -90,7 +101,9 @@ export default function TabTwoScreen() {
               <View style={styles.HRline} />
             </View>
             <View style={styles.providerContainer}>
-              <GoogleSvg />
+              <TouchableOpacity onPress={onGooglePress}>
+                <GoogleSvg />
+              </TouchableOpacity>
               <FaceBookSvg />
             </View>
             <Text style={styles.signUpDesc}>
