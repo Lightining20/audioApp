@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useNavigation } from "expo-router";
 import { getAsyncItem } from "@/utils/storageHandler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { getItem } from "@/utils/localStorage";
 
 const index = () => {
   const navigation = useNavigation();
@@ -12,7 +13,9 @@ const index = () => {
   }, []);
 
   const getUserInfo = async () => {
-    if (await getAsyncItem("USER_DATA")) {
+    const device_id = await getItem("DEVICE_ID");
+    const userData = await getItem("USER_DATA");
+    if (device_id || userData) {
       navigation.reset({
         routes: [{ name: "(drawer)" }],
       });

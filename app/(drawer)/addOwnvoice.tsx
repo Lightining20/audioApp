@@ -128,7 +128,8 @@ import {
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import { useNavigation } from "expo-router";
-import { uploadFileS3 } from "@/utils/s3Upload";
+import { BASE_URL, END_POINTS } from "@/constants/appConstants";
+import axios from "../../services/axios";
 
 export default function App() {
   const navigation = useNavigation();
@@ -183,10 +184,35 @@ export default function App() {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
       });
+
       const uri = recording.getURI();
-      await uploadFileS3(String(Math.random()), uri);
-      // await saveRecordingToFile(uri);
-      // await saveFile(uri, String(Math.random()));
+
+      const formData = new FormData();
+      formData.append("file", {
+        name: "hh",
+        type: "audio/m4a",
+        uri: uri,
+      });
+
+      const fres = await fetch(BASE_URL + END_POINTS.uploadAudio, {
+        body: formData,
+        method: "POST",
+      });
+      const jsonResponse = await fres.json();
+      console.log(
+        "🚀 ~ file: addOwnvoice.tsx:202 ~ stopRecording ~ jsonResponse:",
+        jsonResponse
+      );
+
+      // axios
+      //   .post(END_POINTS.uploadAudio, formData)
+      //   .then((e) => {
+      //     console.log("🚀 ~ file: addOwnvoice.tsx:198 ~ axios.post ~ e:", e);
+      //   })
+      //   .catch((e) => {
+      //     console.log("🚀 ~ file: addOwnvoice.tsx:201 ~ axios.post ~ e:", e);
+      //   });
+
       Alert.alert("Audio upload successfull");
     } catch (error) {
       console.log(

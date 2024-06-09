@@ -14,14 +14,14 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
-import { supabase } from "@/services/googleAuth";
 import { useNavigation } from "expo-router";
-import { setAsyncItem } from "@/utils/storageHandler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { FaceBookSvg, GoogleSvg, Logo } from "@/assets/svgs";
 import { moderateScale } from "../../Theme/matrix";
 import { COLOR } from "@/Theme/color";
 import { useState } from "react";
+import axios from "../../services/axios";
+import { END_POINTS } from "@/constants/appConstants";
 export default function TabTwoScreen() {
   const [emailUserName, setEmailUserName] = useState("");
   const [pass, setPass] = useState("");
@@ -31,7 +31,7 @@ export default function TabTwoScreen() {
   });
 
   GoogleSignin.configure({
-    scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+    scopes: ["https://www.googleapis.scom/auth/drive.readonly"],
     webClientId:
       "728293211693-ch3mnmu4prekuoj55m9j55jtlcl0ucp4.apps.googleusercontent.com",
   });
@@ -45,6 +45,12 @@ export default function TabTwoScreen() {
         "🚀 ~ file: index.tsx:44 ~ onGooglePress ~ userInfo:",
         userInfo
       );
+      const data = {};
+      // axios.post(END_POINTS.signIn);
+
+      navigation.reset({
+        routes: [{ name: "(drawer)" }],
+      });
     } catch (error: any) {
       console.log("🚀 ~ file: explore.tsx:19 ~ onPress={ ~ error:", error);
     }

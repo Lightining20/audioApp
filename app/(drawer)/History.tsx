@@ -1,9 +1,13 @@
 import { COLOR } from "@/Theme/color";
 import { PlaySvg } from "@/assets/svgs";
 import { types } from "@babel/core";
+import axios from "../../services/axios";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale } from "react-native-size-matters";
+import { END_POINTS } from "@/constants/appConstants";
+import { getItem } from "@/utils/localStorage";
 
 const RenderItem = () => (
   <View style={styles.item}>
@@ -20,6 +24,26 @@ const RenderItem = () => (
 );
 
 export default () => {
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {}, []);
+
+  const getHistory = async () => {
+    try {
+      const id = getItem("TOKEN");
+      if (!!id) {
+        const data = await axios.get(END_POINTS.history, {
+          headers: {
+            Authorization: `Bearer ${id}`,
+          },
+        });
+        setHistory(data.data);
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: History.tsx:43 ~ getHistory ~ error:", error);
+    }
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeArea}>

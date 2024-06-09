@@ -18,12 +18,21 @@ import {
   TestIds,
 } from "react-native-google-mobile-ads";
 import BannerModal from "@/components/CustomAd";
+import axios from "../../services/axios";
+import { END_POINTS } from "@/constants/appConstants";
 const adUnitId = __DEV__
   ? TestIds.BANNER
   : "ca-app-pub-6298877785663646~2737160503";
 export default () => {
   const [usertext, setUsertext] = useState("");
-  console.log(BannerAdSize.BANNER);
+
+  const handleTextPress = async () => {
+    try {
+      await axios.post(END_POINTS.genrateAudio, { text: usertext });
+    } catch (error) {
+      console.log("🚀 ~ file: index.tsx:31 ~ handleTextPress ~ error:", error);
+    }
+  };
 
   return (
     <SafeAreaProvider>
@@ -50,9 +59,12 @@ export default () => {
                 placeholderTextColor={COLOR.GREY_200}
               />
 
-              <View style={styles.soundIcon}>
+              <TouchableOpacity
+                onPress={handleTextPress}
+                style={styles.soundIcon}
+              >
                 <SoundSvg />
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={styles.musicControl}>
               <View style={styles.musicControlHeader}>
