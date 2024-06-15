@@ -19,16 +19,24 @@ import {
 } from "react-native-google-mobile-ads";
 import BannerModal from "@/components/CustomAd";
 import axios from "../../services/axios";
-import { END_POINTS } from "@/constants/appConstants";
+import { BASE_URL, END_POINTS } from "@/constants/appConstants";
+import { getItem } from "@/utils/localStorage";
 const adUnitId = __DEV__
   ? TestIds.BANNER
   : "ca-app-pub-6298877785663646~2737160503";
 export default () => {
   const [usertext, setUsertext] = useState("");
+  const [result, setResult] = useState(null);
 
   const handleTextPress = async () => {
     try {
-      await axios.post(END_POINTS.genrateAudio, { text: usertext });
+      await axios
+        .post(
+          END_POINTS.genrateAudio,
+          { text: usertext },
+          { headers: { Authorization: await getItem("TOKEN") } }
+        )
+        .then((res) => console.log("🚀 ~ handleTextPress ~ res:", res));
     } catch (error) {
       console.log("🚀 ~ file: index.tsx:31 ~ handleTextPress ~ error:", error);
     }
@@ -38,10 +46,6 @@ export default () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeArea}>
         <ScrollView>
-          <BannerAd
-            unitId={adUnitId}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          />
           <View style={styles.main}>
             <View style={styles.translationContainer}>
               <View style={styles.languageContainer}>
@@ -70,14 +74,14 @@ export default () => {
               <View style={styles.musicControlHeader}>
                 <Text style={styles.musicHeaderText}>Control Audio</Text>
               </View>
-              <View style={styles.controlContainer}>
+              {/* <View style={styles.controlContainer}>
                 <Text style={styles.controlItemText}>Pitch</Text>
                 <Slider
                   minimumValue={0}
                   maximumValue={20}
                   style={{ flex: 1 }}
                 />
-              </View>
+              </View> */}
               <View style={styles.controlContainer}>
                 <Text style={styles.controlItemText}>Speed</Text>
                 <Slider
@@ -107,6 +111,10 @@ export default () => {
             )}
           </View>
         </ScrollView>
+        <BannerAd
+          unitId={adUnitId}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );

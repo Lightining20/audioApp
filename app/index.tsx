@@ -16,13 +16,9 @@ const index = () => {
     const device_id = await getItem("DEVICE_ID");
     const userData = await getItem("USER_DATA");
     if (device_id || userData) {
-      navigation.reset({
-        routes: [{ name: "(drawer)" }],
-      });
+      navigation.reset({ routes: [{ name: "(drawer)" }] });
     } else {
-      navigation.reset({
-        routes: [{ name: "(auth)" }],
-      });
+      navigation.reset({ routes: [{ name: "(auth)" }] });
     }
   };
 
