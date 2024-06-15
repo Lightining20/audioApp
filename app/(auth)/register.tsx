@@ -10,17 +10,11 @@ import { Logo } from "@/assets/svgs";
 import { moderateScale } from "../../Theme/matrix";
 import { COLOR } from "@/Theme/color";
 import { useState } from "react";
-import { getDeviceId } from "react-native-device-info";
+import { getDeviceId, getUniqueId } from "react-native-device-info";
 import { setItem } from "@/utils/localStorage";
 import axios from "../../services/axios";
 import { BASE_URL, END_POINTS } from "@/constants/appConstants";
 export default function TabTwoScreen() {
-  GoogleSignin.configure({
-    scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-    webClientId:
-      "728293211693-ch3mnmu4prekuoj55m9j55jtlcl0ucp4.apps.googleusercontent.com",
-  });
-
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -35,10 +29,13 @@ export default function TabTwoScreen() {
 
   const handleSkip = async () => {
     try {
-      const data = getDeviceId();
-      await setItem("DEVICE_ID", data);
-      console.log("🚀 ~ file: register.tsx:36 ~ handleSkip ~ data:", data);
-    } catch (error) {}
+      const id = await getUniqueId();
+      await setItem("DEVICE_ID", id);
+      await setItem("TOKEN", id);
+      navigation.reset({ routes: [{ name: "(drawer)" }] });
+    } catch (error) {
+      console.log("🚀 ~ handleSkip ~ error:", error);
+    }
   };
 
   const onGooglePress = async () => {
@@ -59,7 +56,7 @@ export default function TabTwoScreen() {
       const jsonResponse = await fres.json();
       await setItem("TOKEN", jsonResponse?.token);
     } catch (error: any) {
-      console.log("🚀 ~ file: explore.tsx:19 ~ onPress={ ~ error:", error);
+      console.log("🚀 ~ onGooglePress ~ error:", error);
     }
   };
   return (
