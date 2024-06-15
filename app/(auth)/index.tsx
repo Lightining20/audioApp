@@ -30,12 +30,6 @@ export default function TabTwoScreen() {
     pass: "",
   });
 
-  GoogleSignin.configure({
-    scopes: ["https://www.googleapis.scom/auth/drive.readonly"],
-    webClientId:
-      "728293211693-ch3mnmu4prekuoj55m9j55jtlcl0ucp4.apps.googleusercontent.com",
-  });
-
   const navigation = useNavigation();
   const onGooglePress = async () => {
     try {
@@ -52,7 +46,7 @@ export default function TabTwoScreen() {
         routes: [{ name: "(drawer)" }],
       });
     } catch (error: any) {
-      console.log("🚀 ~ file: explore.tsx:19 ~ onPress={ ~ error:", error);
+      console.log("🚀 ~ onGooglePress ~ error:", error);
     }
   };
   return (

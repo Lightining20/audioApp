@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.lightining.audioRecording"
+      "package": "com.skyplor.tts"
     },
     "web": {
       "bundler": "metro",
