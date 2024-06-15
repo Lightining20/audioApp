@@ -58,7 +58,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { moderateScale } from "react-native-size-matters";
 
-const SoundWave = ({ isAnimating = false }: { isAnimating: Boolean }) => {
+const SoundWave = ({ isAnimating = false, reverse = false }) => {
   useEffect(() => {
     if (isAnimating) {
       startAnimation();
@@ -67,29 +67,22 @@ const SoundWave = ({ isAnimating = false }: { isAnimating: Boolean }) => {
     }
   }, [isAnimating]);
 
-  const lineCount = 5;
-  const lineHeights = [
-    {
-      init: 10,
-      max: 40,
-    },
-    {
-      init: 40,
-      max: 20,
-    },
-    {
-      init: 30,
-      max: 10,
-    },
-    {
-      init: 14,
-      max: 10,
-    },
-    {
-      init: 35,
-      max: 10,
-    },
-  ];
+  const lineHeights = reverse
+    ? [
+        { init: 35, max: 10 },
+        { init: 14, max: 10 },
+        { init: 30, max: 10 },
+        { init: 40, max: 20 },
+        { init: 10, max: 40 },
+      ]
+    : [
+        { init: 10, max: 40 },
+        { init: 40, max: 20 },
+        { init: 30, max: 10 },
+        { init: 14, max: 10 },
+        { init: 35, max: 10 },
+      ];
+
   const heights = Array(5)
     .fill("")
     .map((_, i) => ({
@@ -121,9 +114,7 @@ const SoundWave = ({ isAnimating = false }: { isAnimating: Boolean }) => {
           key={index}
           style={[
             styles.box,
-            useAnimatedStyle(() => ({
-              height: height.animationValue.value,
-            })),
+            useAnimatedStyle(() => ({ height: height.animationValue.value })),
           ]}
         />
       ))}
