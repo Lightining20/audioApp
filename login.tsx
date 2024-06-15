@@ -9,12 +9,6 @@ import { useNavigation } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function TabTwoScreen() {
-  GoogleSignin.configure({
-    scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-    webClientId:
-      "728293211693-ch3mnmu4prekuoj55m9j55jtlcl0ucp4.apps.googleusercontent.com",
-  });
-
   const navigation = useNavigation();
 
   return (
@@ -32,6 +26,7 @@ export default function TabTwoScreen() {
                 provider: "google",
                 token: userInfo.idToken,
               });
+              console.log("🚀 ~ onPress={ ~ data:", data);
               if (!error) {
                 await AsyncStorage.setItem("USER_DATA", JSON.stringify(data));
                 navigation.reset({
@@ -42,10 +37,7 @@ export default function TabTwoScreen() {
               throw new Error("no ID token present!");
             }
           } catch (error: any) {
-            console.log(
-              "🚀 ~ file: explore.tsx:19 ~ onPress={ ~ error:",
-              error
-            );
+            console.log("🚀 ~ onPress={ ~ error:", error);
           }
         }}
       />
